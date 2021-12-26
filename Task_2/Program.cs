@@ -20,7 +20,7 @@ namespace Task_2
             Console.ReadKey();
             Console.Clear();;
             KO ko = new KO(SW);
-            ko.Generating_all_combinations_of_k_elements(5);
+            ko.Generating_all_combinations_of_k_elements(2);
 
 
 
