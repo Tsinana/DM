@@ -22,6 +22,29 @@ namespace Task_2
             this.SW = SW;
         }
 
+        public bool NextSet(List<int> a, int n)
+        {
+            int j = n - 2;
+            while (j != -1 && a[j] >= a[j + 1]) 
+                j--;
+            if (j == -1)
+                return false; // больше перестановок нет
+            int k = n - 1;
+            while (a[j] >= a[k]) 
+                k--;
+            swap(a, j, k);
+            int l = j + 1, r = n - 1; // сортируем оставшуюся часть последовательности
+            while (l < r)
+                swap(a, l++, r--);
+            return true;
+        }
+        void swap(List<int>a, int i, int j)
+        {
+            int keeper = a[i];
+            a[i] = a[j];
+            a[j] = keeper;
+        }
+
         public bool Next(List<int> poz,int k)
         {
             k -= 1;
@@ -49,6 +72,7 @@ namespace Task_2
             do
             {
                 // aa bbb
+                list_on.Clear();
                 list_helper[0] = 1;//сим не а
                 do
                 {
@@ -111,7 +135,8 @@ namespace Task_2
                 } while (Next(list_helper, n));//выбор след второго сим
 
                 //aa b c d 
-                list_helper.Clear(); list_helper.Add(1); list_helper.Add(2); list_helper.Add(3);
+                list_helper.Clear(); 
+                list_helper.Add(1); list_helper.Add(2); list_helper.Add(3);
                 for (int i = 0; i < length_on; i++)
                 {
                     list_on.Add("");
@@ -125,16 +150,22 @@ namespace Task_2
                     }
                     index.Remove(pos[0]); index.Remove(pos[1]);
 
-                    list_on[index[0]] = set[list_helper[0]];
-                    list_on[index[1]] = set[list_helper[1]];
-                    list_on[index[2]] = set[list_helper[2]];
-                    list_on[pos[0]] = word_on;
-                    list_on[pos[1]] = word_on;
-                    Print(length_on, list_on);
+                    do
+	                {
+                            for (int i = 0; i < 3; i++)
+                            {
+                                list_on[index[i]] = set[list_helper[i]];
+                            }
+
+                        list_on[pos[0]] = word_on;
+                        list_on[pos[1]] = word_on;
+                        Print(length_on, list_on);
+	                } while (NextSet(index,3));
+                        
 
                 } while (Next(list_helper, n));
                 list_helper.Clear(); list_helper.Add(1);
-
+                
 
             } while (Next(pos, length_on));//выбор поз для а а 
 
